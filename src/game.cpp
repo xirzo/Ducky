@@ -2,6 +2,8 @@
 
 #include <raylib.h>
 
+#include "render.h"
+
 namespace fb {
     void init(const game_state_t &state) {
         SetTraceLogLevel(LOG_ERROR);
@@ -16,14 +18,14 @@ namespace fb {
     void process_input() {
     }
 
-    void draw() {
+    void draw(const game_state_t &state) {
         BeginDrawing();
         ClearBackground(BLACK);
+        draw_player(state);
         EndDrawing();
     }
 
     void update() {
-
     }
 
     void deinit() {
