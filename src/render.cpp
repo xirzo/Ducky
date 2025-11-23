@@ -3,8 +3,32 @@
 #include "raylib.h"
 
 namespace fb {
+    static Texture2D player_texture;
+
+    constexpr char PLAYER_IMAGE_PATH[] = "assets/duck.png";
+
+    std::expected<void, std::string> init_renderer() {
+        if (FileExists(PLAYER_IMAGE_PATH) == false) {
+            return std::unexpected("Player image is not found");
+        }
+
+        Image player_image = LoadImage(PLAYER_IMAGE_PATH);
+        player_texture = LoadTextureFromImage(player_image);
+        UnloadImage(player_image);
+        SetTextureFilter(player_texture, TEXTURE_FILTER_POINT);
+        return {};
+    }
+
+    void deinit_renderer() {
+        UnloadTexture(player_texture);
+    }
+
     void draw_player(const game_state_t &state) {
-        DrawRectangle(state.player.x, state.player.y, state.player.width, state.player.height, WHITE);
+        float scale_x = state.player.width / static_cast<float>(player_texture.width);
+        float scale_y = state.player.height / static_cast<float>(player_texture.height);
+        float scale = (scale_x < scale_y) ? scale_x : scale_y;
+
+        DrawTextureEx(player_texture, {state.player.x, state.player.y}, 0.0f, scale, WHITE);
 #ifdef DEBUG_MODE
         DrawSphere({state.player.x, state.player.y, 8}, 10, GREEN);
 #endif

@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "game.h"
+#include "render.h"
 
 int main() {
     fb::game_state_t state = {0};
@@ -24,6 +27,13 @@ int main() {
 
     fb::init(state);
 
+    auto renderer_init_result = fb::init_renderer();
+
+    if (!renderer_init_result) {
+        std::cerr << "ERROR: " << renderer_init_result.error() << std::endl;
+        return EXIT_FAILURE;
+    }
+
     while (fb::should_close() == false) {
         fb::process_input(state);
         fb::draw(state);
@@ -31,5 +41,5 @@ int main() {
     }
 
     fb::deinit();
-    return 0;
+    return EXIT_SUCCESS;
 }
