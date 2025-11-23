@@ -3,6 +3,7 @@
 #include <raylib.h>
 #include <chrono>
 
+#include "aabb.h"
 #include "render.h"
 
 namespace fb {
@@ -127,11 +128,21 @@ namespace fb {
         }
     }
 
+
+    void restart_if_colliding(game_state_t &state) {
+        for (wall_t &wall: state.walls_pool) {
+            if (are_player_wall_colliding(state.player, wall, state)) {
+                restart(state);
+            }
+        }
+    }
+
     void update(game_state_t &state) {
         move_player(state);
         move_walls(state);
         pool_walls_if_out_of_screen(state);
         unpool_walls_if_pooled(state);
+        restart_if_colliding(state);
         clamp_player_position(state);
     }
 

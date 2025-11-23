@@ -5,10 +5,17 @@
 namespace fb {
     void draw_player(const game_state_t &state) {
         DrawRectangle(state.player.x, state.player.y, state.player.width, state.player.height, WHITE);
+#ifdef DEBUG_MODE
+        DrawSphere({state.player.x, state.player.y, 8}, 10, GREEN);
+#endif
     }
 
     void draw_walls(const game_state_t &state) {
         for (const wall_t &wall: state.walls_pool) {
+#ifdef DEBUG_MODE
+            DrawSphere({wall.x, wall.y, 8}, 10, GREEN);
+#endif
+
             if (wall.is_hidden) {
                 continue;
             }
