@@ -51,6 +51,12 @@ namespace fb {
         state.player.x = state.player.initial_x;
         state.player.y = state.player.initial_y;
         state.player.velocity_y = 0;
+
+        state.walls_pool.clear();
+
+        add_wall(state, 0);
+        add_wall(state, 200);
+        add_wall(state, 400);
     }
 
     void player_jump(game_state_t &state) {
