@@ -78,6 +78,7 @@ namespace fb {
     void draw(const game_state_t &state) {
         BeginDrawing();
         ClearBackground(BACKGROUND_COLOR);
+        draw_background(state);
         draw_player(state);
         draw_walls(state);
         EndDrawing();

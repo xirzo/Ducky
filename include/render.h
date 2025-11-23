@@ -10,6 +10,8 @@ namespace fb {
 
     void deinit_renderer();
 
+    void draw_background(const game_state_t &state);
+
     void draw_player(const game_state_t &state);
 
     void draw_walls(const game_state_t &state);
