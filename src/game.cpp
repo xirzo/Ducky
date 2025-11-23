@@ -56,7 +56,7 @@ namespace fb {
     }
 
     void process_input(game_state_t &state) {
-        if (IsKeyPressed(KEY_SPACE)) {
+        if (IsKeyPressed(KEY_SPACE) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             player_jump(state);
         }
     }

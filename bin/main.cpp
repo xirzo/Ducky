@@ -7,14 +7,15 @@ int main() {
     state.target_fps = 60;
 
     state.world.gravity_constant = 600;
-    state.world.wall_offset = 50;
-    state.world.wall_gap = 100;
+    state.world.wall_offset = 10;
+    state.world.wall_gap = 150;
+    state.world.wall_width = 60;
 
     state.player.initial_x = static_cast<float>(state.window_width) / 5;
     state.player.initial_y = static_cast<float>(state.window_height) / 2;
 
-    state.player.width = 60;
-    state.player.height = 60;
+    state.player.width = 50;
+    state.player.height = 50;
 
     state.player.jump_force = 500.0;
     state.player.max_fall_speed = 400.0;

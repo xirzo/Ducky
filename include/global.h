@@ -22,6 +22,7 @@ namespace fb {
         float gravity_constant;
         float wall_offset;
         float wall_gap;
+        float wall_width;
     };
 
     struct wall_t {
