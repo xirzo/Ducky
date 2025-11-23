@@ -6,11 +6,12 @@
 #include "render.h"
 
 namespace fb {
-    void add_wall(game_state_t &state) {
+    void add_wall(game_state_t &state, float x_offset) {
         float x = static_cast<float>(state.window_width) -
-                  static_cast<float>(state.window_width) / 4;
-        float y = state.random_range(state.random_generator);
-        state.walls.emplace_back(x, y);
+                  static_cast<float>(state.window_width) / 4
+                  + x_offset;
+        float random_y = state.random_range(state.random_generator);
+        state.walls_pool.emplace_back(x, random_y, false);
     }
 
     void init(game_state_t &state) {
@@ -38,7 +39,11 @@ namespace fb {
 
         state.random_range = std::uniform_real_distribution(top_random_y_position, bottom_random_y_position);
 
-        add_wall(state);
+        add_wall(state, 0);
+        add_wall(state, 200);
+        add_wall(state, 400);
+
+        state.world.wall_unpool_x_position = 600;
     }
 
     void restart(game_state_t &state) {
@@ -90,8 +95,43 @@ namespace fb {
         }
     }
 
+    void move_walls(game_state_t &state) {
+        const float deltaTime = GetFrameTime();
+
+        for (wall_t &wall: state.walls_pool) {
+            wall.x -= state.world.wall_speed * deltaTime;
+        }
+    }
+
+    void pool_walls_if_out_of_screen(game_state_t &state) {
+        for (wall_t &wall: state.walls_pool) {
+            if (wall.is_hidden || wall.x > -state.world.wall_width) {
+                continue;
+            }
+
+            wall.is_hidden = true;
+        }
+    }
+
+    void unpool_walls_if_pooled(game_state_t &state) {
+        for (wall_t &wall: state.walls_pool) {
+            if (wall.is_hidden == false) {
+                continue;
+            }
+
+            float random_y = state.random_range(state.random_generator);
+
+            wall.x = state.world.wall_unpool_x_position;
+            wall.y = random_y;
+            wall.is_hidden = false;
+        }
+    }
+
     void update(game_state_t &state) {
         move_player(state);
+        move_walls(state);
+        pool_walls_if_out_of_screen(state);
+        unpool_walls_if_pooled(state);
         clamp_player_position(state);
     }
 

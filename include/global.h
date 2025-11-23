@@ -23,11 +23,14 @@ namespace fb {
         float wall_offset;
         float wall_gap;
         float wall_width;
+        float wall_speed;
+        float wall_unpool_x_position;
     };
 
     struct wall_t {
         float x;
         float y;
+        bool is_hidden;
     };
 
     struct game_state_t {
@@ -40,7 +43,7 @@ namespace fb {
 
         player_t player;
         world_t world;
-        std::vector<wall_t> walls;
+        std::vector<wall_t> walls_pool;
     };
 }
 

@@ -10,6 +10,7 @@ int main() {
     state.world.wall_offset = 10;
     state.world.wall_gap = 150;
     state.world.wall_width = 60;
+    state.world.wall_speed = 100;
 
     state.player.initial_x = static_cast<float>(state.window_width) / 5;
     state.player.initial_y = static_cast<float>(state.window_height) / 2;

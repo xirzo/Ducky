@@ -8,7 +8,11 @@ namespace fb {
     }
 
     void draw_walls(const game_state_t &state) {
-        for (const wall_t &wall: state.walls) {
+        for (const wall_t &wall: state.walls_pool) {
+            if (wall.is_hidden) {
+                continue;
+            }
+
             Vector2 top_part_position = {
                 wall.x, 0,
             };
