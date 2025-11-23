@@ -7,6 +7,8 @@ int main() {
     state.target_fps = 60;
 
     state.world.gravity_constant = 600;
+    state.world.wall_offset = 50;
+    state.world.wall_gap = 100;
 
     state.player.initial_x = static_cast<float>(state.window_width) / 5;
     state.player.initial_y = static_cast<float>(state.window_height) / 2;

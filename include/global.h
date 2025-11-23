@@ -1,6 +1,9 @@
 ﻿#ifndef FLAPPYBIRD_GLOBAL_H
 #define FLAPPYBIRD_GLOBAL_H
 
+#include <vector>
+#include <random>
+
 namespace fb {
     struct player_t {
         float x;
@@ -17,6 +20,13 @@ namespace fb {
 
     struct world_t {
         float gravity_constant;
+        float wall_offset;
+        float wall_gap;
+    };
+
+    struct wall_t {
+        float x;
+        float y;
     };
 
     struct game_state_t {
@@ -24,8 +34,12 @@ namespace fb {
         int window_height;
         int target_fps;
 
+        std::uniform_real_distribution<float> random_range;
+        std::mt19937 random_generator;
+
         player_t player;
         world_t world;
+        std::vector<wall_t> walls;
     };
 }
 
