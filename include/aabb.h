@@ -16,6 +16,8 @@ namespace fb {
     );
 
     bool are_player_wall_colliding(const player_t &player, const wall_t &wall, const game_state_t &state);
+
+    bool are_player_wall_gap_colliding(const player_t &player, const wall_t &wall, const game_state_t &state);
 }
 
 #endif //FLAPPYBIRD_AABB_H

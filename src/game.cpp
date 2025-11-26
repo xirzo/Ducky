@@ -13,7 +13,7 @@ namespace fb {
     void add_wall(game_state_t &state, int index) {
         float x = state.world.wall_unpool_x_position + state.world.wall_spacing * static_cast<float>(index);
         float random_y = state.random_range(state.random_generator);
-        state.walls_pool.emplace_back(x, random_y, false);
+        state.walls_pool.emplace_back(x, random_y, false, false);
     }
 
     void init(game_state_t &state) {
@@ -23,6 +23,7 @@ namespace fb {
 
         state.player.x = state.player.initial_x;
         state.player.y = state.player.initial_y;
+        state.player.score = 0;
 
         long long seed = std::chrono::system_clock::now()
                 .time_since_epoch()
@@ -52,6 +53,7 @@ namespace fb {
         state.player.x = state.player.initial_x;
         state.player.y = state.player.initial_y;
         state.player.velocity_y = 0;
+        state.player.score = 0;
 
         state.walls_pool.clear();
 
@@ -82,6 +84,7 @@ namespace fb {
         draw_background(state);
         draw_player(state);
         draw_walls(state);
+        draw_score(state);
         EndDrawing();
     }
 
@@ -151,6 +154,7 @@ namespace fb {
 
             wall.y = random_y;
             wall.is_hidden = false;
+            wall.is_scored = false;
         }
     }
 
@@ -163,12 +167,22 @@ namespace fb {
         }
     }
 
+    void add_score_on_collision(game_state_t &state) {
+        for (wall_t &wall: state.walls_pool) {
+            if (!wall.is_scored && wall.x - state.world.wall_width / 2 < state.player.x) {
+                state.player.score += 1;
+                wall.is_scored = true;
+            }
+        }
+    }
+
     void update(game_state_t &state) {
         move_player(state);
         move_walls(state);
         pool_walls_if_out_of_screen(state);
         unpool_walls_if_pooled(state);
         restart_if_colliding(state);
+        add_score_on_collision(state);
         clamp_player_position(state);
     }
 

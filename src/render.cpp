@@ -28,6 +28,8 @@ namespace fb {
     constexpr float SWAY_FREQ = 0.9f;
     constexpr float SWAY_AMPLITUDE = 6.0f;
 
+    constexpr int FONT_SIZE = 35;
+
     std::expected<void, std::string> init_renderer() {
         auto load_texture = [](const char *path, Texture2D &texture,
                                const char *error_message) -> std::expected<void, std::string> {
@@ -118,10 +120,6 @@ namespace fb {
 
     void draw_walls(const game_state_t &state) {
         for (const wall_t &wall: state.walls_pool) {
-#ifdef DEBUG_MODE
-            DrawSphere({wall.x, wall.y, 8}, 10, GREEN);
-#endif
-
             if (wall.is_hidden) {
                 continue;
             }
@@ -155,6 +153,26 @@ namespace fb {
                 DrawTextureEx(tunnel_line_texture, {wall.x, current_y}, 0.0f, scale, WHITE);
                 current_y += line_height;
             }
+
+#ifdef DEBUG_MODE
+            DrawSphere({wall.x, wall.y, 8}, 10, GREEN);
+            DrawSphere({wall.x, top_wall_bottom_y, 8}, 10, GREEN);
+            DrawSphere({wall.x, bottom_wall_top_y, 8}, 10, GREEN);
+            DrawCubeWires({wall.x + state.world.wall_width / 2, wall.y, 0},
+                          state.world.wall_width,
+                          bottom_wall_top_y - top_wall_bottom_y,
+                          0,
+                          RED);
+#endif
         }
+    }
+
+
+    void draw_score(const game_state_t &state) {
+        const char *text = TextFormat("%d", state.player.score);
+        Vector2 text_size = MeasureTextEx(GetFontDefault(), text, FONT_SIZE, 0); // Get width and height
+        int x = GetScreenWidth() / 2 - text_size.x / 2;
+        int y = GetScreenHeight() / 6;
+        DrawText(text, x, y, FONT_SIZE, WHITE);
     }
 }

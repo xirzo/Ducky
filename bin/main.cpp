@@ -8,9 +8,10 @@ int main() {
     state.window_width = 720 / 2;
     state.window_height = 1280 / 2;
     state.target_fps = 60;
+    state.player.score = 0;
 
-    auto ww = static_cast<float>(state.window_width);
-    auto wh = static_cast<float>(state.window_height);
+    const auto ww = static_cast<float>(state.window_width);
+    const auto wh = static_cast<float>(state.window_height);
 
     state.world.wall_width = ww * 0.167f;
     state.world.wall_gap = wh * 0.234f;
@@ -32,9 +33,7 @@ int main() {
 
     fb::init(state);
 
-    auto renderer_init_result = fb::init_renderer();
-
-    if (!renderer_init_result) {
+    if (auto renderer_init_result = fb::init_renderer(); !renderer_init_result) {
         std::cerr << "ERROR: " << renderer_init_result.error() << std::endl;
         return EXIT_FAILURE;
     }

@@ -16,6 +16,7 @@ namespace fb {
         float jump_force;
         float max_fall_speed;
         float max_rise_speed;
+        int score;
     };
 
     struct world_t {
@@ -32,6 +33,7 @@ namespace fb {
         float x;
         float y;
         bool is_hidden;
+        bool is_scored;
     };
 
     struct game_state_t {

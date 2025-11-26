@@ -15,6 +15,8 @@ namespace fb {
     void draw_player(const game_state_t &state);
 
     void draw_walls(const game_state_t &state);
+
+    void draw_score(const game_state_t &state);
 }
 
 #endif //FLAPPYBIRD_RENDER_H
